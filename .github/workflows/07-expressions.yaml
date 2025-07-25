@@ -1,6 +1,6 @@
 name: 07 - using expressions
 
-run-name: 07 - using expression ${{ inputs.debug && 'ON' || 'OFF' }}
+run-name: 07 - using expression DEBUG - ${{ inputs.debug && 'ON' || 'OFF' }}
 
 on:
   push:
