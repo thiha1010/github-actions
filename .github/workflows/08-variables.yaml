@@ -28,3 +28,25 @@ jobs:
         run: | 
           echo "using job varialbe: ${{ env.JOB_VAR }}"
           echo "using workflow variable: ${{ env.WORKFLOW_VAR }}"
+  second-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Org Variables
+        run: |
+          echo "Org var: ${{ vars.ORG_VAR }}"
+          echo "Repo var: ${{ vars.REPOSITORY_VAR }}"
+
+  third-job:
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Print prod environment variable
+        run: |
+          echo "Environment var: ${{ vars.TARGET_VAR }}"
+
+  fouth-job-undefined:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print Undefined variables
+        run: |
+          echo "Undefined Org var: ${{ vars.UN_ORG_VAR || 'default org value' }}"
