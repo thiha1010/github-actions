@@ -1,0 +1,30 @@
+name: 08 - variables
+
+on:
+  workflow_dispatch:
+
+
+env:
+  WORKFLOW_VAR: "Workflow envrionment variable"
+
+jobs:
+  first-job:
+    runs-on: ubuntu-latest
+    env:
+      JOB_VAR: "Job envrionment variable"
+    steps:
+      - name: Variables
+        env:
+          STEP_VAR: "Step envrionment variable"
+          STEP_VAR2: "Step-2 envrionment variable"
+          step_var3: "Step-3 small character envrionment variable"
+        run: |
+          echo "Step variable: ${{ env.STEP_VAR }}"
+          echo "Step-2 variable: $STEP_VAR2"
+          echo "Step-3 variable: $step_var3"
+          echo "Job variable: ${{ env.JOB_VAR }}"
+          echo "Workflow variable: ${{ env.WORKFLOW_VAR }}"
+      - name: using job & workflow variable
+        run: | 
+          echo "using job varialbe: ${{ env.JOB_VAR }}"
+          echo "using workflow variable: ${{ env.WORKFLOW_VAR }}"
