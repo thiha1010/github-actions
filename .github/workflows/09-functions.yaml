@@ -1,12 +1,22 @@
 name: 09 - functions
 
 on:
+  pull_request:
   workflow_dispatch:
 
 jobs:
   first-job:
     runs-on: ubuntu-latest
     steps:
+      - name: Print PR title
+        run: echo "${{ github.event.pull_request.title }}"
+
+      - name: Print PR labels
+        run: |
+          cat << EOF
+          ${{ toJson(github.env.pull_request.labels) }}
+          EOF
+
       - name: sleep 10 sec
         run: sleep 10
 
