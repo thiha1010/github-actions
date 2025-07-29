@@ -20,12 +20,11 @@ jobs:
       - name: Print GITHUB_OUTPUT path
         run: echo "$GITHUB_OUTPUT"
 
-      - name: Print GITHUB_OUTPUT content
-        run: cat $GITHUB_OUTPUT
-
       - name: build step
         id: build
-        run: echo "status=${{ inputs.build-message }}" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "status=${{ inputs.build-message }}" >> "$GITHUB_OUTPUT"
+          cat $GITHUB_OUTPUT
 
   deploy:
     runs-on: ubuntu-latest
