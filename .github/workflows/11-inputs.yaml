@@ -8,6 +8,7 @@ on:
         type: boolean
         default: false
       environment:
+        required: true
         type: environment
         description: choose the environment
       tag:
