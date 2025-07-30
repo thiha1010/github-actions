@@ -11,6 +11,10 @@ on:
           - 20.x
           - 21.x
         default: 20.x
+      use-cache:
+        description: execute cache step or not
+        type: boolean
+        default: true
 
 jobs:
   build:
@@ -18,18 +22,33 @@ jobs:
     defaults:
       run:
         working-directory: 13-caching/react-app
+
     steps:
       - name: checkout the code # https://github.com/marketplace/actions/checkout
         uses: actions/checkout@v4
+
       - name: setup node # https://github.com/marketplace/actions/setup-node-js-environment
         uses: actions/setup-node@v4
         with:
           node-version: ${{ inputs.node-version }}
+
+      - name: Download cache dependencies # https://github.com/marketplace/actions/cache
+        uses: actions/cache@v4
+        id: cache
+        if: ${{ inputs.use-cache }}
+        with:
+          path: 13-caching/react-app/node_modules
+          key: dependencies-node-modules-${{ hashFiles('13-caching/react-app/package-lock.json') }}
+
       - name: Install dependencies
+        if: ${{ steps.cache.outputs.cache-hit != 'true' }} # https://github.com/marketplace/actions/cache#outputs
         run: npm ci
+
       - name: Testing
         run: npm run test
+
       - name: Building
         run: npm run build
+
       - name: Deploy to nonprod
         run: echo "Deploying to nonprod"
