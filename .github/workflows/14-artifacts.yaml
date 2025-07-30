@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
 
 env:
-  build-image-key: ${{ github.sha }}
-  coverage-key: ${{ github.sha }}
+  build-image-key: app-${{ github.sha }}
+  coverage-key: test-coverage-${{ github.sha }}
 
 jobs:
   build-job:
