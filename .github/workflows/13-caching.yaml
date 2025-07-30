@@ -1,0 +1,35 @@
+name: 13 - working with caching
+
+on:
+  workflow_dispatch:
+    inputs:
+      node-version:
+        description: Node Version
+        type: choice
+        options:
+          - 18.x
+          - 20.x
+          - 21.x
+        default: 20.x
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 13-caching/react-app
+    steps:
+      - name: checkout the code # https://github.com/marketplace/actions/checkout
+        uses: actions/checkout@v4
+      - name: setup node # https://github.com/marketplace/actions/setup-node-js-environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node-version }}
+      - name: Install dependencies
+        run: npm ci
+      - name: Testing
+        run: npm run test
+      - name: Building
+        run: npm run build
+      - name: Deploy to nonprod
+        run: echo "Deploying to nonprod"
