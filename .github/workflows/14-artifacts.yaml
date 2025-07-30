@@ -1,0 +1,65 @@
+name: Working with artifacts
+
+on:
+  workflow_dispatch:
+
+env:
+  build-image-key: ${{ github.sha }}
+  coverage-key: ${{ github.sha }}
+
+jobs:
+  build-job:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: 14-artifacts/react-app
+    steps:
+      - name: CheckOut
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Download cached dependencies
+        uses: actions/cache@v4
+        id: cache
+        with:
+          path: 14-artifacts/react-app/node_modules
+          key: ${{ hashFiles('14-artifacts/react-app/package-lock.json') }}
+
+      - name: Install dependencies
+        if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        run: npm ci
+
+      - name: Test code
+        run: npm run test -- --coverage
+
+      - name: upload test files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.coverage-key }}
+          path: 14-artifacts/react-app/coverage
+
+      - name: Build code
+        run: npm run build
+
+      - name: upload build files
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.build-image-key }}
+          path: 14-artifacts/react-app/build
+
+  deploy-job:
+    needs: build-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.build-image-key }}
+          path: build
+
+      - name: show the files
+        run: ls -R
