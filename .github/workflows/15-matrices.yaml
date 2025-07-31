@@ -1,0 +1,37 @@
+name: 15 - Working with Matrices
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  backwards-compatibility:
+    name: ${{ matrix.os }}-${{ matrix.node-version }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false  #default => true
+      matrix:
+        node-version: [18.x, 21.x]
+        os:
+          - windows-latest
+          - ubuntu-latest
+        include:
+          - os: ubuntu-latest
+            node-version: 16.x
+          - os: ubuntu-latest
+            node-version: 21.x
+            tag: 'fail-job'
+    steps:
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: fail step
+        if: ${{ matrix.tag }} == 'fail-job'
+        run: exit 1
+
+      - name: Tests
+        run: |
+          echo "Running on OS=> ${{ matrix.os }} and NodeJS=> ${{ matrix.node-version }}"
+          sleep 5
