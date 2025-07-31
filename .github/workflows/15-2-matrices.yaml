@@ -1,0 +1,26 @@
+name: 15 - 1 Working with Matrices
+
+on:
+  workflow_dispatch: 
+
+
+jobs:
+  include-example:
+    name: ${{ matrix.color }}-${{ matrix.shape }}-${{ matrix.size }}-${{ matrix.opacity }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        color: [red, green]
+        shape: [circle, square]
+        size: [small, large]
+        include:
+          - opacity: 50
+          - color: red
+            opacity: 75
+          - shape: circle
+            opacity: 100
+          - color: red
+            shape: triangle
+    steps:
+      - name: Dummy step
+        run: echo "${{ matrix.color }}-${{ matrix.shape }}-${{ matrix.size }}-${{ matrix.opacity }}"
