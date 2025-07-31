@@ -28,7 +28,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: fail step
-        if: ${{ matrix.tag }} == 'fail-job'
+        if: matrix.tag == 'fail-job'
         run: exit 1
 
       - name: Tests
