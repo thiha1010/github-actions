@@ -1,0 +1,19 @@
+name: Ping URL
+description: Ping URL 
+
+inputs:
+  url:
+    description: URL to Ping
+    required: true
+  max_trials:
+    description: maximum number of trials
+    required: false
+    default: '5'
+  delay:
+    description: delay seconds between trials
+    default: '2'
+    required: false
+
+runs:
+  using: docker
+  image: Containerfile

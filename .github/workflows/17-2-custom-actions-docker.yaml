@@ -1,0 +1,34 @@
+name: 17 - 2 - custom - action - docker
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: URL to ping
+        type: choice
+        options:
+          - www.google.com
+          - https://google.com
+          - https://invlaud.com
+      delay:
+        description: delay secod
+        default: '2'
+        type: string
+      max_trails:
+        description: maximum trilas
+        default: '5'
+        type: string
+
+jobs:
+  ping_url:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Ping URL
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: ${{ inputs.url }}
+          delay: ${{ inputs.delay }}
+          max_trials: ${{ inputs.max_trails }}
