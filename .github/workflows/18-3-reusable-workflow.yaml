@@ -1,0 +1,9 @@
+name: 18 - 3 - Reusable Workflow
+
+on:
+  workflow_dispatch:
+
+
+jobs:
+  e2e-test:
+    uses: thiha1010/github-actions-e2e/.github/workflows/e2e.yaml@main
