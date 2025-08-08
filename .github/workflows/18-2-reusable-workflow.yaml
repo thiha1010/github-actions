@@ -1,0 +1,30 @@
+name: 18 - 2 - Reusable Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      target-dir:
+        description: Target directory
+        type: string
+        required: true
+      url:
+        description: URL-e.g https://google.com
+        type: string
+        required: true
+
+
+jobs:
+  deploy-job:
+    uses: ./.github/workflows/18-1-reusable-workflow.yaml
+    with:
+      target-dir: ${{ inputs.target-dir }}
+      url: ${{ inputs.url }}
+
+  output-job:
+    runs-on: ubuntu-latest
+    needs: deploy-job
+    steps:
+      - name: Print target directory
+        run: |
+          echo "${{ needs.deploy-job.outputs.output-build-status }}"
+          echo "${{ needs.deploy-job.outputs.output-url }}"
