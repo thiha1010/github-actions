@@ -6,11 +6,13 @@ on:
       target-dir:
         description: Target directory
         type: string
-        required: true
+        required: false
+        default: 'hello-dir'
       url:
         description: URL-e.g https://google.com
         type: string
-        required: true
+        required: false
+        default: 'https://www.google.com'
 
 
 jobs:
@@ -26,5 +28,5 @@ jobs:
     steps:
       - name: Print target directory
         run: |
-          echo "${{ needs.deploy-job.outputs.output-build-status }}"
-          echo "${{ needs.deploy-job.outputs.output-url }}"
+          echo "build-status: ${{ needs.deploy-job.outputs.output-build-status }}"
+          echo "url: ${{ needs.deploy-job.outputs.output-url }}"
