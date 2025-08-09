@@ -5,6 +5,11 @@ on:
 
 
 jobs:
+  deploy:
+    uses: ./.github/workflows/18-1-reusable-workflow.yaml
+    with:
+      target-dir: hello-dir
+      url: http://google.com
   e2e-test:
     uses: thiha1010/github-actions-e2e/.github/workflows/e2e.yaml@main
     secrets:
