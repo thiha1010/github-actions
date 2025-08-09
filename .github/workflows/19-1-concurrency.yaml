@@ -1,0 +1,21 @@
+name: 19 - 1 - Concurrency
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow}}-${{ github.ref }}
+
+jobs:
+  concurrency-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Ping URL
+        uses: ./.github/actions/docker-ping-url
+        with:
+          url: https://google.com
+          delay: 5
+          max_trials: 5
