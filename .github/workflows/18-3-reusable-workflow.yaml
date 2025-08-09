@@ -7,5 +7,3 @@ on:
 jobs:
   e2e-test:
     uses: thiha1010/github-actions-e2e/.github/workflows/e2e.yaml@main
-    secrets:
-      access-token: ${{ secrets.GH_SECRET }}
